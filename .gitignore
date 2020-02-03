@@ -1,5 +1,5 @@
 userSide/migrations
-userSide/_pycache_
+userSide/__pycache__
 adminSide/migrations
-adminSide/_pycache_
-foodSystem/_pycache_
+adminSide/__pycache__
+foodSystem/__pycache__
