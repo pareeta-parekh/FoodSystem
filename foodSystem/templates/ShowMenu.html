@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Menu</h2>
+
+<table>
+  <tr>
+    <th>Name </th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Order</th>
+  </tr>
+  {% for objects in object_Show %}
+  <tr>
+    <td name="item_name">{{objects.item_name}}</td>
+    <td name="item_price">{{objects.item_price}}</td>
+    <form id= "form_{{objects.id}}" method="POST" action="/user/selectMenu/{{objects.id}}/" >{% csrf_token %}
+      <td name="item_Quanty"><input type="number" id="{{objects.item_name}}" name="quantity" size="4" width="4"> </td>
+      <td><button type="submit" id="sel_{{objects.item_name}}" >SELECT</button></td>
+    </form>
+  </tr>
+  {% endfor%}
+  <!-- <td>{{itemQty}}</td> -->
+</table>
+
+<button type="button" onclick="location.href='/user/displayMenu/cart/'">SEE CART</button>
+<button type="button" onclick="location.href='/user/home/'">HOME</button>
+<script>
+  function showqty(qtyname)
+  {
+    console.log(qtyname)
+    document.getElementById(qtyname).disabled = true;
+    // $.ajax({
+    //         type:"get",
+    //         url: "/user/displayMenu/qty/",
+    //         data:{
+    //             qtyName = qtyname
+    //         }
+    //     })
+  }
+</script>
+</body>
+</html>

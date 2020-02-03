@@ -1,0 +1,158 @@
+<html>
+    <head>
+        {% load staticfiles%} 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>
+            Menu For YOU!
+        </title>
+        <style>
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+              background-color: #dddddd;
+            }
+            </style>
+            
+    </head>
+    <body align="center">
+        <h3> Here you can Add, Edit or Delete your Menu!</h3>
+        <br>
+        <br>
+        <form method="POST" action="." align="center">{% csrf_token %}
+
+            Item Name : <input type="text" name="itemName" id="itemname">
+            <br><br>
+            Item Price : <input type="text" name="itemPrice" id="itemprice">
+            <br><br>
+            <!-- <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script> -->
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% if msg %}
+            
+            <script>
+                swal({
+                        title: "Success!",
+                        text: "Added Successfully!!!",
+                        icon: "success",
+                        buttons: false
+                    })
+                var timer = setTimeout(function() {
+                window.location='/admin/home/'
+                }, 2000);
+            </script>
+            {% endif %}
+            {% if msgExists %}
+            
+            <script>
+                swal({
+                        title: "Warning!",
+                        text: "Item Already added!!!",
+                        icon: "warning",
+                        buttons: false
+                    })
+                var timer = setTimeout(function() {
+                window.location='/admin/home/'
+                }, 2000);
+            </script>
+            {% endif %}
+            <button type="submit" name="ok" class="menuOk" onclick="menu_check()">ADD</button>
+            <button type="button" onclick="location.href='/admin/home/'">HOME</button>
+        </form>
+        <br><br>
+        <h2>Menu</h2>
+
+        <table>
+        <tr>
+            <th>Name  </th>
+            <th>Price</th>
+            <th colspan="2">Action</th>
+        </tr>
+        {% for objects in object_Show %}
+        <tr id="tr_{{objects.id}}">
+            <td name="item_name" id="name_{{objects.id}}">{{objects.item_name}}</td>
+            <td name="item_price" id="price_{{objects.id}}">{{objects.item_price}}</td>
+            <form method="POST" action="/user/selectMenu/{{objects.id}}/">{% csrf_token %}
+                <td><button id = "edit_{{objects.id}}" onclick="editit(this.id)" type="button">EDIT</button></td>
+            </form>
+            <form>
+                <td><button id="delete_{{objects.id}}" onclick="deleteit(this.id)" type="submit">DELETE</button></td>
+            </form>
+        </tr>
+        {% endfor%}
+        </table>
+        <script>
+            function editit(edid){
+                var id = edid.substring(5,edid.length)
+                console.log(id);
+                var namenew = prompt("Enter Item Name:");
+                var pricenew = prompt("Enter Item Price:");
+                if (namenew != null && pricenew == null)
+                {
+                    pricenew = document.getElementById("price_"+id).innerHTML
+                    document.getElementById("name_"+id).innerHTML = namenew;
+                    $.ajax({
+                        type:"get",
+                        url: "/admin/menu/change/",
+                        data:{
+                            id:id,
+                            name:namenew,
+                            price:pricenew
+                        }
+                    })
+                }
+                else if(namenew == null && pricenew != null)
+                {
+                    namenew = document.getElementById("name_"+id).innerHTML
+                    document.getElementById("price_"+id).innerHTML = pricenew;
+                    $.ajax({
+                        type:"get",
+                        url: "/admin/menu/change/",
+                        data:{
+                            id:id,
+                            name:namenew,
+                            price:pricenew
+                        }
+                    })
+                }
+                else if(namenew != null && pricenew != null)
+                {
+                    document.getElementById("name_"+id).innerHTML = namenew;
+                    document.getElementById("price_"+id).innerHTML = pricenew;
+                    $.ajax({
+                        type:"get",
+                        url: "/admin/menu/change/",
+                        data:{
+                            id:id,
+                            name:namenew,
+                            price:pricenew
+                        }
+                    })
+                }
+            }
+            function deleteit(delid)
+            {
+                var id = delid.substring(7,delid.length)
+                if(confirm("are you ready ?")){
+                    $.ajax({
+                        type:"get",
+                        url: "/admin/menu/delete/",
+                        data:{
+                            id:id,
+                        }
+                    })
+                    document.getElementById("tr_"+id).remove();
+                }
+
+            }
+        </script>
+    </body>
+</html>

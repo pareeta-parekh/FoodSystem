@@ -1,0 +1,25 @@
+<html>
+    <head>
+        {% load staticfiles%} 
+        <title>
+            Forget Password
+        </title>
+    </head>
+    <body>
+        <div id="whole">
+        <form method="POST" action=".">{% csrf_token %}
+
+            Username : <input type="text" name="user" id="user">
+            <br><br>
+            Email- Id : <input type="text" name="email" id="email">
+            <br><br>
+
+            <button type="submit" name="forgetPass" class="forgetPass">Click Confirm</button>
+            <label>
+                {{ objPass}} {{msg}}
+            </label>
+        </form>
+    </div>
+        <script src={% static 'js/app.js' %}></script> 
+    </body>
+</html>

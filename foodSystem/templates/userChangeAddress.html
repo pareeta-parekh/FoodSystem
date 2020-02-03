@@ -1,0 +1,17 @@
+<html>
+    <head>
+        {% load staticfiles%} 
+        <title>
+            Change Your Address!
+        </title>
+    </head>
+    <body>
+        <form method="POST" action=".">{% csrf_token %}
+
+            New Address : <textarea type="text" name="newAdd" id="newAdd"></textarea>
+            <br><br>
+
+            <button type="submit" name="chngemail" class="chngemail" onclick="window.location.href='/user/profile/changeAddress/'">EDIT</button>
+        </form>
+        <script src={% static 'js/app.js' %}></script> 
+    </body></html>

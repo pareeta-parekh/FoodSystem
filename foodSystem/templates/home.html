@@ -1,0 +1,38 @@
+<html>
+    <head>
+        {% load staticfiles%} 
+        <title>
+            Home Page
+        </title>
+    </head>
+    <body align="center">
+        <div id="whole">
+        <form method="POST" action=".">{% csrf_token %}
+
+            <button type="button" name="addMenu" class="addMenu" onclick="window.location.href='/admin/menu/'">Menu</button>
+            <br><br>
+            <button type="button" name="viewBill" class="viewBill" onclick="window.location.href='/admin/viewbill/'"> View Bill</button>
+            <br><br>
+            <button type="button" name="viewProfile" class="viewProfile" onclick="window.location.href='/admin/profile/'"> View Profile</button>
+            <br><br>
+            <button type="button" name="logout" class="logout" onclick="window.location.href='/admin/logout/'"> Log Out</button>
+            <br><br>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% if msg %}
+            <script>
+                swal({
+                        title: "Warning!",
+                        text: "No data to show!!!",
+                        icon: "warning",
+                        buttons: false
+                    })
+                var timer = setTimeout(function() {
+                window.location='/admin/home/'
+                }, 2000);
+            </script>
+            {% endif %}
+        </form>
+    </div>
+        <script src={% static 'js/app.js' %}></script> 
+    </body>
+</html>

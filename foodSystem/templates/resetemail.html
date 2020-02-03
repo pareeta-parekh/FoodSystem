@@ -1,0 +1,50 @@
+<html>
+    <head>
+        {% load staticfiles%} 
+        <title>
+            Forget Password 
+        </title>
+    </head>
+    <body>
+        <div id="whole">
+        <form method="POST" action=".">{% csrf_token %}
+
+            New Password : <input type="password" name="newPass" id="newPass" required>
+            <br><br>
+            Confirm Password : <input type="password" name="cnfrmPass" id="cnfrmPass" required>
+            <br><br>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% if msg %}
+            
+            <script>
+                swal({
+                        title: "Error!",
+                        text: "Passwords should be same!!!",
+                        icon: "error",
+                        buttons: false
+                    })
+                var timer = setTimeout(function() {
+                window.location='/admin/forgetpassword/reset/{{id}}/'
+                }, 2000);
+            </script>
+            {% endif %}
+            <button type="submit" name="resetPass" class="resetPass">Click RESET</button>
+            <script>
+            var passwrd = document.getElementById('newPass').value;
+            var passwd = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+                    if(passwd.test(passwrd) == false)
+                    {
+                        swal({
+                        title: "Error!",
+                        text: "Password should be between 6-20 characters and it should contain atleast 1 upperCase, 1 lowerCase, 1 symbol and a number!! \n "+"Your Password: " + passwrd,
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+            </script>
+        </form>
+    </div>
+        
+    </body>
+</html>

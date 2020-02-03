@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title> Profile </title>
+    </head>
+    <body>
+        Username : <label>{{objProf.user_username}}</label>
+        <br><br>
+        Email-Id : <label>{{objProf.user_email}}</label>
+        <br><br>
+        Address : <a href="/user/profile/changeAddress/"><label>{{objProf.user_address}}</label></a>
+        <br><br>
+        <button type="button" onclick="location.href='/user/profile/changePassword/'">Change Password</button>
+        <button type="button" onclick="location.href='/user/home/'">HOME</button>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>HTML Table</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
+    <th>Action</th>
+  </tr>
+  {% for objects in userCart %}
+  <tr id="tr_{{objects.id}}">
+    <td name="item_name">{{objects.item_name}}</td>
+    <td name="item_Quanty">{{objects.item_Quanty}}</td>
+    <td name="item_price">{{objects.item_price}}</td>
+    <td name="item_total">{{objects.total}}</td>
+    <form>
+      <td><button id="delete_{{objects.id}}" onclick="deleteit(this.id)" type="submit">DELETE</button></td>
+  </form>
+  </tr>
+  {% endfor %}
+  <tr>
+      <td colspan="3"> Total </td>
+      <td colspan="2"> {{itemTotal}}</td>
+  </tr>
+</table>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  {% if msg %}
+  
+  <script>
+      swal({
+              title: "Success!",
+              text: "Deleted Successfully!!!",
+              icon: "success",
+              buttons: false
+          })
+      var timer = setTimeout(function() {
+      window.location='/user/displayMenu/cart/'
+      }, 2000);
+  </script>
+  {% endif %}
+<button type="button" onclick="location.href='/user/displayMenu/cart/order/'"> ORDER </button>
+<button type="button" onclick="location.href='/user/displayMenu/'"> MENU </button>
+<script>
+  function deleteit(delid)
+  {
+    console.log(delid)
+    var id = delid.substring(7,delid.length)
+    if(confirm("are you ready ?")){
+        $.ajax({
+            type:"get",
+            url: "/user/displayMenu/cart/delete/",
+            data:{
+                id:id,
+            }
+        })
+        document.getElementById("tr_"+id).remove();
+    }
+  }
+</script>
+</body>
+</html>

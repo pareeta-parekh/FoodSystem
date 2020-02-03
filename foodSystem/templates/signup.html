@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         {% load staticfiles%} 
+        <title>Sign UP Form</title>
+    </head>
+    <body>
+        <h2> Signup Form </h2>
+            <form method="POST" action="." onsubmit="return(check_signup());">{% csrf_token %}
+                
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+                Username: 
+                <input type="text" placeholder="Enter Username" name="username" id = "name" required>
+                <br><br>
+                Password: 
+                <input type="password" placeholder="Enter Password" name="password" id="password" required>
+                <br><br>
+                Repeat Password:
+                <input type="password" placeholder="Repeat Password" name="passrepeat" id="rptPass" required>
+                <br><br>
+                Email-Id:
+                <input type="text" placeholder="Email" name="email" id="email" required>
+                <br><br>
+
+                <button type="submit" class="signupbtn">Sign Up</button>
+                {{msg}}
+            </form>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script>
+                function val(){
+                    console.log("Submit");
+                    return false;
+                }
+                function check_signup()
+                {
+                    console.log("in signup");
+                    let username = document.getElementById("name").value;
+                    console.log(username);
+                    let passwrd = document.getElementById("password").value;
+                    console.log(passwrd);
+                    let rptPass = document.getElementById("rptPass").value;
+                    console.log(rptPass);
+                    let email = document.getElementById("email").value;
+                    console.log(email);
+                    console.log(username.length)
+                    if(username.length < 4)
+                    {
+                        print("in username")
+                        swal({
+                        title: "Error!",
+                        text: "Username should be more than 3 and less than 20 Characters!!!",
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                    if(username.length > 20)
+                    {
+                        print("in username")
+                        swal({
+                        title: "Error!",
+                        text: "Username should be more than 3 and less than 20 Characters!!!",
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                    if(passwrd != rptPass)
+                    {
+                        swal({
+                        title: "Error!",
+                        text: "Enter Correct Password!!!",
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                    var passwd = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+                    if(passwd.test(passwrd) == false)
+                    {
+                        swal({
+                        title: "Error!",
+                        text: "Password should be between 6-20 characters and it should contain atleast 1 upperCase, 1 lowerCase, 1 symbol and a number!! \n "+"Your Password: " + passwrd,
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                    if( passwrd.length > 20)
+                    {
+                        swal({
+                        title: "Error!",
+                        text: "Password should be between 8-20 characters!!!",
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                    var mailformat = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+                    if(mailformat.test(email) == false)
+                    {
+                        swal({
+                        title: "Error!",
+                        text: "Incorrect Mail",
+                        icon: "error",
+                        buttons: false
+                        })
+                        return false;
+                    }
+                }
+            </script>
+         
+    </body>
+</html>
